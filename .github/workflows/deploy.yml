@@ -21,13 +21,14 @@ jobs:
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
         run: |
-          python - <<EOF
+          python - << 'PYEOF'
+          import os
           from huggingface_hub import HfApi
-          api = HfApi(token="$HF_TOKEN")
+          api = HfApi(token=os.environ["HF_TOKEN"])
           api.upload_folder(
               folder_path=".",
               repo_id="haroon-ml/Heart_Disease_Prediction",
               repo_type="space",
               ignore_patterns=["*.git*", ".github*"]
           )
-          EOF
+          PYEOF
