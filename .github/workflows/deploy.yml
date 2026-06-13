@@ -1,0 +1,33 @@
+name: Deploy to Hugging Face Space
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install HuggingFace CLI
+        run: pip install huggingface_hub
+
+      - name: Deploy to HuggingFace
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: |
+          python - <<EOF
+          from huggingface_hub import HfApi
+          api = HfApi(token="$HF_TOKEN")
+          api.upload_folder(
+              folder_path=".",
+              repo_id="haroon-ml/Heart_Disease_Prediction",
+              repo_type="space",
+              ignore_patterns=["*.git*", ".github*"]
+          )
+          EOF
