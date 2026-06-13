@@ -9,7 +9,7 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Baaki files copy karo
-COPY heart_main.py .
+COPY main.py .
 COPY KNN_heart.pkl .
 COPY Scaler.pkl .
 COPY Columns.pkl .
